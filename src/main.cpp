@@ -1,0 +1,59 @@
+#include <iostream>
+#include <cmath>
+
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Window/Event.hpp>
+#include <SFML/System/Vector2.hpp>
+
+const float PI = 3.14159265359f;
+
+float ComputeAngle(sf::Vector2f point1, sf::Vector2f point2)
+{
+    return std::atan2((point2.x - point1.x), (point2.y - point1.y)) * (180/PI);
+    // std::atan2() returns RAD but you need DEG for SFML so *(180/PI) to convert it.
+}
+
+
+int main()
+{
+    sf::RenderWindow window(sf::VideoMode(800,600), "Chicken Invaders");
+    window.setVerticalSyncEnabled(true);
+
+    sf::RectangleShape rect; // Your spacehip
+    rect.setSize(sf::Vector2f(50,20));
+    rect.setFillColor(sf::Color::Green);
+    rect.setOrigin(rect.getLocalBounds().width / 2.f, rect.getLocalBounds().height / 2.f); // Its important that the origin is in the middle of the sprite
+    rect.setPosition(400,300);
+
+
+
+
+
+    while(window.isOpen())
+    {
+        sf::Event event;
+        while(window.pollEvent(event))
+        {
+            if(event.type == sf::Event::Closed)
+            {
+                window.close();
+            }
+        }
+
+        float rotAngle = ComputeAngle(rect.getPosition(), static_cast<sf::Vector2f>(sf::Mouse::getPosition(window)));
+       // std::cout << rotAngle << std::endl;
+        rect.setRotation(90-rotAngle); // "90-" Depends on how your Spaceshape is rotated by default
+
+
+
+        window.clear(sf::Color(0,0,173));
+
+        window.draw(rect);
+
+        window.display();
+
+    }
+
+    return 0;
+}

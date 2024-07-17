@@ -1,0 +1,49 @@
+#define GLAD_VULKAN_IMPLEMENTATION
+#include <vulkan.h>
+
+// Include graphics because we use sf::Image for loading images
+#include <SFML/Graphics.hpp>
+
+#include <SFML/Window.hpp>
+	
+    void run()
+    {
+        sf::Clock clock;
+
+        // Start game loop
+        while (window.isOpen())
+        {
+            // Process events
+            sf::Event event;
+            while (window.pollEvent(event))
+            {
+                // Close window: exit
+                if (event.type == sf::Event::Closed)
+                    window.close();
+
+                // Escape key: exit
+                if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape))
+                    window.close();
+
+                // Re-create the swapchain when the window is resized
+                if (event.type == sf::Event::Resized)
+                    swapchainOutOfDate = true;
+            }
+
+            if (vulkanAvailable)
+            {
+                // Update the uniform buffer (matrices)
+                updateUniformBuffer(clock.getElapsedTime().asSeconds());
+
+                // Render the frame
+                draw();
+            }
+        }
+    }
+int main() {
+	ChickenInvaders chickenInvaders;
+
+	chickenInvaders.run();
+
+	return EXIT_SUCCESS;
+}
