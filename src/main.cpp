@@ -24,7 +24,7 @@ int main()
     rect.setSize(sf::Vector2f(50,20));
     rect.setFillColor(sf::Color::Green);
     rect.setOrigin(rect.getLocalBounds().width / 2.f, rect.getLocalBounds().height / 2.f); // Its important that the origin is in the middle of the sprite
-    rect.setPosition(400,300);
+    rect.setPosition(400,550);
 
 
 
@@ -44,8 +44,19 @@ int main()
         float rotAngle = ComputeAngle(rect.getPosition(), static_cast<sf::Vector2f>(sf::Mouse::getPosition(window)));
        // std::cout << rotAngle << std::endl;
         rect.setRotation(90-rotAngle); // "90-" Depends on how your Spaceshape is rotated by default
-
-
+	//rect.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(window)).x, rect.getPosition().y);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+		rect.setPosition(rect.getPosition().x, rect.getPosition().y - 0.5);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		rect.setPosition(rect.getPosition().x, rect.getPosition().y + 0.5);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+		rect.setPosition(rect.getPosition().x - 0.5, rect.getPosition().y);	
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+		rect.setPosition(rect.getPosition().x + 0.5, rect.getPosition().y);	
+	}
 
         window.clear(sf::Color(0,0,173));
 
