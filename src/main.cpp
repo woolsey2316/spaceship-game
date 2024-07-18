@@ -18,17 +18,12 @@ float ComputeAngle(sf::Vector2f point1, sf::Vector2f point2)
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800,600), "Chicken Invaders");
-    window.setVerticalSyncEnabled(true);
 
     sf::RectangleShape rect; // Your spacehip
     rect.setSize(sf::Vector2f(50,20));
     rect.setFillColor(sf::Color::Green);
     rect.setOrigin(rect.getLocalBounds().width / 2.f, rect.getLocalBounds().height / 2.f); // Its important that the origin is in the middle of the sprite
     rect.setPosition(400,550);
-
-
-
-
 
     while(window.isOpen())
     {
@@ -68,3 +63,4 @@ int main()
 
     return 0;
 }
+
