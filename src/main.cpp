@@ -1,8 +1,10 @@
+#include "Bullet.hpp"
 #include <iostream>
 #include <cmath>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/System/Vector2.hpp>
 
@@ -24,6 +26,9 @@ int main()
     rect.setFillColor(sf::Color::Green);
     rect.setOrigin(rect.getLocalBounds().width / 2.f, rect.getLocalBounds().height / 2.f); // Its important that the origin is in the middle of the sprite
     rect.setPosition(400,550);
+
+    std::vector<sf::CircleShape> bullets;
+    std::vector<float> angles;
 
     while(window.isOpen())
     {
@@ -51,6 +56,21 @@ int main()
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 		rect.setPosition(rect.getPosition().x + 0.5, rect.getPosition().y);	
+	}
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		bullets.push_back(sf::CircleShape());
+		bullets.back().setRadius(5);
+		bullets.back().setOrigin(5,5);
+		bullets.back().setPosition(rect.getPosition());
+		angles.push_back(
+			std::atan2(sf::Mouse::getPosition().y - rect.getPosition().y,
+				sf::Mouse::getPosition().x - rect.getPosition().x)
+			);
+	}
+	for (int i = 0; i < bullets.size(); i++)
+	{
+		window.draw(bullets[i]);
+		bullets[i].move(5*cos(angles[i]), 5*sin(angles[i]));
 	}
 
         window.clear(sf::Color(0,0,173));
