@@ -1,4 +1,3 @@
-#include "Bullet.hpp"
 #include <iostream>
 #include <cmath>
 
@@ -29,7 +28,7 @@ int main()
 
     std::vector<sf::CircleShape> bullets;
     std::vector<float> angles;
-
+    sf::Clock clock;
     while(window.isOpen())
     {
         sf::Event event;
@@ -57,23 +56,26 @@ int main()
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 		rect.setPosition(rect.getPosition().x + 0.5, rect.getPosition().y);	
 	}
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && clock.getElapsedTime().asSeconds() > 0.035) {
 		bullets.push_back(sf::CircleShape());
 		bullets.back().setRadius(5);
 		bullets.back().setOrigin(5,5);
 		bullets.back().setPosition(rect.getPosition());
 		angles.push_back(
-			std::atan2(sf::Mouse::getPosition().y - rect.getPosition().y,
-				sf::Mouse::getPosition().x - rect.getPosition().x)
+			std::atan2(sf::Mouse::getPosition(window).y - rect.getPosition().y,
+				sf::Mouse::getPosition(window).x - rect.getPosition().x)
 			);
+		clock.restart();
 	}
+        
+	window.clear(sf::Color(0,0,173));
+	
 	for (int i = 0; i < bullets.size(); i++)
 	{
 		window.draw(bullets[i]);
 		bullets[i].move(5*cos(angles[i]), 5*sin(angles[i]));
 	}
 
-        window.clear(sf::Color(0,0,173));
 
         window.draw(rect);
 
